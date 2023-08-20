@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { startService } from './plugins';
+import { startService, unpkgPackagePath } from './plugins';
 
 const App = () => {
   const [input, setInput] = useState('');
@@ -7,11 +7,20 @@ const App = () => {
 
   const onClick = async () => {
     const esBuildRef = await startService();
-    const result = await esBuildRef.transform(input, {
-      loader: 'jsx',
-      target: 'es2015',
+    // const result = await esBuildRef.transform(input, {
+    //   loader: 'jsx',
+    //   target: 'es2015',
+    // });
+    const result = await esBuildRef.build({
+      entryPoints: ['index.js'],
+      sourcemap: 'external',
+      bundle: true,
+      write: false,
+      plugins: [unpkgPackagePath()],
+      outdir: 'out',
     });
-    setCode(result.code);
+
+    setCode(result.outputFiles[1].text);
   };
 
   return (
