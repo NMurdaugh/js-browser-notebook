@@ -17,10 +17,10 @@ const App = () => {
       bundle: true,
       write: false,
       plugins: [unpkgPackagePath()],
-      // define: {
-      //   'process.env.NODE_ENV': '"production"',
-      //   global: 'window',
-      // },
+      define: {
+        // 'process.env.NODE_ENV': '"production"',
+        global: 'window',
+      },
       outdir: 'out',
     });
 
