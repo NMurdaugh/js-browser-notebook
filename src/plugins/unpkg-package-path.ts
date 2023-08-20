@@ -1,19 +1,15 @@
-import axios from 'axios';
 import * as esbuild from 'esbuild-wasm';
-import localforage from 'localforage';
 
-const fileCache = localforage.createInstance({
-  name: 'fileCache',
-});
-
-export const unpkgPackagePath = (inputCode: string) => {
+export const unpkgPackagePath = () => {
   return {
     name: 'unpkg-package-path',
     setup(build: esbuild.PluginBuild) {
+      // handle root file index.js
       build.onResolve({ filter: /(^index\.js$)/ }, () => {
         return { path: 'index.js', namespace: 'a' };
       });
 
+      // handle relative file paths in a module
       build.onResolve({ filter: /^\.+\// }, (args: esbuild.OnResolveArgs) => {
         return {
           namespace: 'a',
@@ -21,37 +17,12 @@ export const unpkgPackagePath = (inputCode: string) => {
         };
       });
 
+      // handle main file in module
       build.onResolve({ filter: /.*/ }, async (args: esbuild.OnResolveArgs) => {
         return {
           namespace: 'a',
           path: `https://unpkg.com/${args.path}`,
         };
-      });
-
-      build.onLoad({ filter: /.*/ }, async (args: esbuild.OnLoadArgs) => {
-        console.log('onLoad', args);
-
-        if (args.path === 'index.js') {
-          return {
-            loader: 'jsx',
-            contents: inputCode,
-          };
-        }
-
-        const cachedResult = await fileCache.getItem(args.path);
-
-        if (cachedResult) {
-          return cachedResult;
-        }
-
-        const { data, request } = await axios.get(args.path);
-        const axiosResult = {
-          loader: 'jsx',
-          contents: data,
-          resolveDir: new URL('./', request.responseURL).pathname,
-        };
-
-        await fileCache.setItem(args.path, axiosResult);
       });
     },
   };
