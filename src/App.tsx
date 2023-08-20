@@ -16,7 +16,7 @@ const App = () => {
       sourcemap: 'external',
       bundle: true,
       write: false,
-      plugins: [unpkgPackagePath()],
+      plugins: [unpkgPackagePath(input)],
       define: {
         // 'process.env.NODE_ENV': '"production"',
         global: 'window',
