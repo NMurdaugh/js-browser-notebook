@@ -1,7 +1,7 @@
 import * as esbuild from 'esbuild-wasm';
 
 const startService = (() => {
-  let esBuildRef: any;
+  let esBuildRef: typeof esbuild;
   return async () => {
     if (esBuildRef) {
       return esBuildRef;
