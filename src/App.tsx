@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { outputCodeFetch, startService, unpkgPackagePath } from './plugins';
+import {
+  inputCodePathResolver,
+  outputCodeFetcher,
+  startService,
+} from './plugins';
 
 const App = () => {
   const [input, setInput] = useState('');
@@ -16,7 +20,7 @@ const App = () => {
       sourcemap: 'external',
       bundle: true,
       write: false,
-      plugins: [unpkgPackagePath(), outputCodeFetch(input)],
+      plugins: [inputCodePathResolver(), outputCodeFetcher(input)],
       define: {
         // 'process.env.NODE_ENV': '"production"',
         global: 'window',
