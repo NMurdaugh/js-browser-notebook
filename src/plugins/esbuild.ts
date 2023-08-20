@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild-wasm';
 
-const startService = (() => {
+export const startService = (() => {
   let esBuildRef: typeof esbuild;
   return async () => {
     if (esBuildRef) {
@@ -14,5 +14,3 @@ const startService = (() => {
     }
   };
 })();
-
-export default startService;
