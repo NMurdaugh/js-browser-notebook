@@ -25,13 +25,34 @@ export const outputCodeFetcher = (inputCode: string) => {
         }
 
         const { data, request } = await axios.get(args.path);
+
+        console.log(request);
+
+        const fileType = args.path.match(/.css$/) ? 'css' : 'jsx';
+
+        const escapedData = (data: string) => {
+          return data
+            .replace(/\n/g, '')
+            .replace(/"/g, '\\"')
+            .replace(/'/g, "\\'");
+        };
+
+        const contents =
+          fileType === 'css'
+            ? `
+          const style = document.createElement('style');
+          style.innerText = '${escapedData(data)}';
+          document.head.appendChild(style);
+        `
+            : data;
         const axiosResult = {
           loader: 'jsx',
-          contents: data,
+          contents: contents,
           resolveDir: new URL('./', request.responseURL).pathname,
         };
 
         await fileCache.setItem(args.path, axiosResult);
+        return axiosResult;
       });
     },
   };

@@ -27,6 +27,7 @@ const App = () => {
       },
       outdir: 'out',
     });
+    console.log(result);
 
     setCode(result.outputFiles[1].text);
   };
