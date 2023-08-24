@@ -7,7 +7,7 @@ export const startEsbuildService = (() => {
       return esBuildRef;
     } else {
       await esbuild.initialize({
-        wasmURL: './esbuild.wasm',
+        wasmURL: 'https://unpkg.com/esbuild-wasm@0.19.2/esbuild.wasm',
       });
       esBuildRef = esbuild;
       return esBuildRef;
