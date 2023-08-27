@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   inputCodePathResolver,
   outputCodeFetcher,
@@ -6,15 +6,12 @@ import {
 } from './plugins';
 
 const App = () => {
+  const iframe = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
 
   const onClick = async () => {
     const esBuildRef = await startEsbuildService();
-    // const result = await esBuildRef.transform(input, {
-    //   loader: 'jsx',
-    //   target: 'es2015',
-    // });
     const result = await esBuildRef.build({
       entryPoints: ['index.js'],
       sourcemap: 'external',
@@ -29,8 +26,23 @@ const App = () => {
     });
     console.log(result);
 
-    setCode(result.outputFiles[1].text);
+    // setCode(result.outputFiles[1].text);
+    iframe.current?.contentWindow?.postMessage(result.outputFiles[1].text, '*');
   };
+
+  const html = `
+  <html>
+        <head></head>
+        <body>
+          <div id='root'></div>
+          <script>
+            window.addEventListener('message', (event) => {
+              console.log(event.data)
+            }, false)
+          </script>
+        </body>
+      </html>
+  `;
 
   return (
     <>
@@ -42,6 +54,11 @@ const App = () => {
         <div>
           <button onClick={onClick}>Submit</button>
         </div>
+        <iframe
+          ref={iframe}
+          sandbox='allow-scripts'
+          srcDoc={html}
+        ></iframe>
         <pre>{code}</pre>
       </div>
     </>
