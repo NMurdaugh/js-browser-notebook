@@ -8,7 +8,6 @@ import {
 const App = () => {
   const iframe = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState('');
-  const [code, setCode] = useState('');
 
   const onClick = async () => {
     const esBuildRef = await startEsbuildService();
@@ -64,11 +63,11 @@ const App = () => {
           <button onClick={onClick}>Submit</button>
         </div>
         <iframe
+          title='preview'
           ref={iframe}
           sandbox='allow-scripts'
           srcDoc={html}
         ></iframe>
-        <pre>{code}</pre>
       </div>
     </>
   );
