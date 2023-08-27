@@ -1,13 +1,23 @@
-import Editor from '@monaco-editor/react';
-import React from 'react';
+import Editor, { OnChange, OnMount } from '@monaco-editor/react';
+import React, { useRef } from 'react';
 
 interface ICodeEditorProps {
   initialValue: string;
+  onChange: OnChange;
 }
 
-const CodeEditor: React.FC<ICodeEditorProps> = ({ initialValue }) => {
+const CodeEditor: React.FC<ICodeEditorProps> = ({ initialValue, onChange }) => {
+  const editorRef = useRef<any>(null);
+
+  const handleEditorDidMount: OnMount = (editor) => {
+    editorRef.current = editor;
+    console.log(editorRef.current.getValue());
+  };
+
   return (
     <Editor
+      onMount={handleEditorDidMount}
+      onChange={onChange}
       value={initialValue}
       height='250px'
       language='javascript'
@@ -22,6 +32,7 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ initialValue }) => {
         scrollBeyondLastLine: false,
         automaticLayout: true,
         cursorBlinking: 'phase',
+        tabSize: 2,
       }}
     />
   );
