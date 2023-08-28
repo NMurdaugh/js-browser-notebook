@@ -2,6 +2,7 @@ import Editor, { OnChange, OnMount } from '@monaco-editor/react';
 import prettier from 'prettier';
 import parser from 'prettier/parser-babel';
 import React, { useRef } from 'react';
+import './styles/code-editor.css';
 
 interface ICodeEditorProps {
   initialValue: string;
@@ -33,8 +34,13 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ initialValue, onChange }) => {
   };
 
   return (
-    <>
-      <button onClick={onFormatClick}>Format</button>
+    <div className='editor-wrapper'>
+      <button
+        className='button button-format is-primary is-small'
+        onClick={onFormatClick}
+      >
+        Format
+      </button>
       <Editor
         onMount={handleEditorDidMount}
         onChange={onChange}
@@ -55,7 +61,7 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ initialValue, onChange }) => {
           tabSize: 2,
         }}
       />
-    </>
+    </div>
   );
 };
 
