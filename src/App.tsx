@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import CodeEditor from './components/code-editor';
 import {
   inputCodePathResolver,
   outputCodeFetcher,
@@ -55,6 +56,12 @@ const App = () => {
   return (
     <>
       <div>
+        <CodeEditor
+          initialValue='const hey = "hello";'
+          onChange={(value) => {
+            if (value) setInput(value);
+          }}
+        />
         <textarea
           value={input}
           onChange={(event) => setInput(event.target.value)}

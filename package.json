@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.5.2",
+    "@types/prettier": "^3.0.0",
     "axios": "^1.4.0",
+    "bulmaswatch": "^0.8.1",
     "esbuild-wasm": "0.19.2",
     "localforage": "^1.10.0",
+    "monaco-editor": "^0.41.0",
+    "prettier": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
