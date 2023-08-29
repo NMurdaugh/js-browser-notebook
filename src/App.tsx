@@ -1,5 +1,6 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import CodeEditor from './components/code-editor';
+import Preview from './components/preview';
 import {
   inputCodePathResolver,
   outputCodeFetcher,
@@ -7,15 +8,11 @@ import {
 } from './plugins';
 
 const App = () => {
-  const iframe = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState('');
+  const [code, setCode] = useState('');
 
   const onClick = async () => {
     const esBuildRef = await startEsbuildService();
-
-    if (iframe.current) {
-      iframe.current.srcdoc = html;
-    }
 
     const result = await esBuildRef.build({
       entryPoints: ['index.js'],
@@ -23,35 +20,15 @@ const App = () => {
       bundle: true,
       write: false,
       plugins: [inputCodePathResolver(), outputCodeFetcher(input)],
+      outdir: 'out',
       define: {
         // 'process.env.NODE_ENV': '"production"',
         global: 'window',
       },
-      outdir: 'out',
     });
-    // setCode(result.outputFiles[1].text);
-    iframe.current?.contentWindow?.postMessage(result.outputFiles[1].text, '*');
-  };
 
-  const html = `
-    <html>
-    <head></head>
-    <body>
-      <div id='root'></div>
-      <script>
-        window.addEventListener('message', (event) => {
-          try {
-            eval(event.data);
-          } catch (error) {
-            const root = document.querySelector('#root');
-            root.innerHTML = '<div style="color: red"><h4>Runtime Error:</h4>' + error + '</div>'
-            console.error(error)
-          }
-        }, false)
-      </script>
-    </body>
-  </html>
-  `;
+    setCode(result.outputFiles[1].text);
+  };
 
   return (
     <>
@@ -62,19 +39,10 @@ const App = () => {
             if (value) setInput(value);
           }}
         />
-        <textarea
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-        ></textarea>
         <div>
           <button onClick={onClick}>Submit</button>
         </div>
-        <iframe
-          title='preview'
-          ref={iframe}
-          sandbox='allow-scripts'
-          srcDoc={html}
-        ></iframe>
+        <Preview code={code} />
       </div>
     </>
   );

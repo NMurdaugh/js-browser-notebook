@@ -14,7 +14,6 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ initialValue, onChange }) => {
 
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor;
-    console.log(editorRef.current.getValue());
   };
 
   const onFormatClick = () => {
