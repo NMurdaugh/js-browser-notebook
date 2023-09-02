@@ -2,6 +2,7 @@ import { useState } from 'react';
 import bundler from '../bundler';
 import CodeEditor from '../components/code-editor';
 import Preview from '../components/preview';
+import Resizable from './resizable';
 
 const CodeCell = () => {
   const [input, setInput] = useState('');
@@ -13,7 +14,7 @@ const CodeCell = () => {
   };
 
   return (
-    <>
+    <Resizable axis='y'>
       <div>
         <CodeEditor
           initialValue='const hey = "hello";'
@@ -26,7 +27,7 @@ const CodeCell = () => {
         </div>
         <Preview code={code} />
       </div>
-    </>
+    </Resizable>
   );
 };
 
