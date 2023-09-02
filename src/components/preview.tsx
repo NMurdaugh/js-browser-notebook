@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import './styles/preview';
+import './styles/preview.css';
 
 interface IPreviewProps {
   code: string;
@@ -7,7 +7,7 @@ interface IPreviewProps {
 
 const html = `
 <html>
-<head></head>
+  <head></head>
 <body>
   <div id='root'></div>
   <script>
