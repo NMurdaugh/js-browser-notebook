@@ -1,5 +1,6 @@
 import MDEditor from '@uiw/react-md-editor';
 import React, { useEffect, useRef, useState } from 'react';
+import './styles/text-editor.css';
 
 const TextEditor: React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -26,14 +27,20 @@ const TextEditor: React.FC = () => {
 
   if (editing) {
     return (
-      <div ref={ref}>
+      <div
+        ref={ref}
+        className='text-editor'
+      >
         <MDEditor />
       </div>
     );
   }
 
   return (
-    <div onClick={() => setEditing(true)}>
+    <div
+      onClick={() => setEditing(true)}
+      className='text-editor'
+    >
       <MDEditor.Markdown source={'# Header'} />
     </div>
   );
