@@ -33,10 +33,11 @@ const Preview: React.FC<IPreviewProps> = ({ code }) => {
   useEffect(() => {
     if (iframe.current) {
       iframe.current.srcdoc = html;
+      setTimeout(() => {
+        iframe.current?.contentWindow?.postMessage(code, '*');
+      }, 50);
     }
   }, [code]);
-
-  iframe.current?.contentWindow?.postMessage(code, '*');
 
   return (
     <div className='preview-wrapper'>
