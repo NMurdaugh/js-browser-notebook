@@ -8,11 +8,13 @@ import './styles/code-cell.css';
 const CodeCell = () => {
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      const bundledCode = await bundler(input);
-      setCode(bundledCode);
+      const bundlingResult = await bundler(input);
+      setCode(bundlingResult.code);
+      setError(bundlingResult.error);
     }, 1000);
     return () => {
       clearTimeout(timer);
@@ -30,7 +32,10 @@ const CodeCell = () => {
             }}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview
+          code={code}
+          error={error}
+        />
       </div>
     </Resizable>
   );
