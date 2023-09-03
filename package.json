@@ -13,6 +13,7 @@
     "@monaco-editor/react": "^4.5.2",
     "@types/prettier": "^3.0.0",
     "@types/react-resizable": "^3.0.4",
+    "@uiw/react-md-editor": "^3.23.5",
     "axios": "^1.4.0",
     "bulmaswatch": "^0.8.1",
     "esbuild-wasm": "0.19.2",
