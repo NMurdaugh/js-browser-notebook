@@ -5,14 +5,11 @@ import './styles/text-editor.css';
 const TextEditor: React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState('# Start writing');
 
   useEffect(() => {
     const listener = (event: MouseEvent) => {
-      if (
-        ref.current &&
-        event.target &&
-        ref.current.contains(event.target as Node)
-      ) {
+      if (ref.current?.contains(event?.target as Node)) {
         return;
       }
 
@@ -31,7 +28,10 @@ const TextEditor: React.FC = () => {
         ref={ref}
         className='text-editor'
       >
-        <MDEditor />
+        <MDEditor
+          value={value}
+          onChange={(input) => setValue(input || '')}
+        />
       </div>
     );
   }
@@ -39,9 +39,11 @@ const TextEditor: React.FC = () => {
   return (
     <div
       onClick={() => setEditing(true)}
-      className='text-editor'
+      className='text-editor card'
     >
-      <MDEditor.Markdown source={'# Header'} />
+      <div className='card-content'>
+        <MDEditor.Markdown source={value} />
+      </div>
     </div>
   );
 };
