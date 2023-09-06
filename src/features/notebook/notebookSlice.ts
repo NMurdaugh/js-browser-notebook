@@ -29,7 +29,10 @@ export const notebookSlice = createSlice({
   reducers: {
     moveCell: (state, action: PayloadAction<MoveCellPayload>) => {},
 
-    deleteCell: (state, action: PayloadAction<DeleteCellPayload>) => {},
+    deleteCell: (state, action: PayloadAction<DeleteCellPayload>) => {
+      delete state.data.id;
+      state.order = state.order.filter((cellId) => cellId !== action.payload);
+    },
 
     insertCellBefore: (
       state,
