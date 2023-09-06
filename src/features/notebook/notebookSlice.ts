@@ -39,6 +39,12 @@ export const notebookSlice = createSlice({
       action: PayloadAction<InsertCellBeforePayload>
     ) => {},
 
-    updateCell: (state, action: PayloadAction<UpdateCellPayload>) => {},
+    updateCell: (state, action: PayloadAction<UpdateCellPayload>) => {
+      const { id, content } = action.payload;
+      state.data[id] = {
+        ...state.data[id],
+        content: content,
+      };
+    },
   },
 });
