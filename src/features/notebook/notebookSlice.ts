@@ -86,3 +86,8 @@ export const notebookSlice = createSlice({
 const randomId = () => {
   return Math.random().toString(36).substring(2, 5);
 };
+
+export const { moveCell, deleteCell, insertCellBefore, updateCell } =
+  notebookSlice.actions;
+
+export default notebookSlice.reducer;
