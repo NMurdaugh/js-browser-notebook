@@ -53,7 +53,25 @@ export const notebookSlice = createSlice({
     insertCellBefore: (
       state,
       action: PayloadAction<InsertCellBeforePayload>
-    ) => {},
+    ) => {
+      const { id, type } = action.payload;
+
+      const newCell: Cell = {
+        id: randomId(),
+        type: type,
+        content: '',
+      };
+
+      state.data[newCell.id] = newCell;
+
+      const index = state.order.findIndex((cellId) => cellId === id);
+
+      if (index < 0) {
+        state.order.push(newCell.id);
+      } else {
+        state.order.splice(index, 0, newCell.id);
+      }
+    },
 
     updateCell: (state, action: PayloadAction<UpdateCellPayload>) => {
       const { id, content } = action.payload;
@@ -64,3 +82,7 @@ export const notebookSlice = createSlice({
     },
   },
 });
+
+const randomId = () => {
+  return Math.random().toString(36).substring(2, 5);
+};
