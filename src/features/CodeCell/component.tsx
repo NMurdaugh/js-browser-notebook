@@ -13,27 +13,26 @@ interface ICodeCellProps {
 
 export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
   const dispatch = useAppDispatch();
-  const [input, setInput] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      const bundlingResult = await bundler(input);
+      const bundlingResult = await bundler(cell.content);
       setCode(bundlingResult.code);
       setError(bundlingResult.error);
     }, 1000);
     return () => {
       clearTimeout(timer);
     };
-  }, [input]);
+  }, [cell.content]);
 
   return (
     <ResizableWrapper axis='y'>
       <div className='resizable-editor'>
         <ResizableWrapper axis='x'>
           <CodeEditor
-            initialValue='const hey = "hello";'
+            initialValue={cell.content}
             onChange={(value) => {
               if (value) {
                 dispatch(updateCell({ id: cell.id, content: value }));
