@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ResizableBox, ResizableBoxProps } from 'react-resizable';
-import './styles/resizable.css';
+import './ResizableWrapper.css';
 
 interface IResizableProps {
   axis: 'x' | 'y';
   children?: React.ReactNode;
 }
 
-const Resizable: React.FC<IResizableProps> = ({ axis, children }) => {
+const ResizableWrapper: React.FC<IResizableProps> = ({ axis, children }) => {
   let resizableProps: ResizableBoxProps;
   const [innerHeight, setInnerHeight] = useState(window.innerHeight);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -42,7 +42,7 @@ const Resizable: React.FC<IResizableProps> = ({ axis, children }) => {
       resizeHandles: ['e'],
       minConstraints: [innerWidth * 0.25, Infinity],
       maxConstraints: [innerWidth * 0.75, Infinity],
-      onResizeStop: (event, data) => {
+      onResizeStop: (_, data) => {
         setWidth(data.size.width);
       },
     };
@@ -60,4 +60,4 @@ const Resizable: React.FC<IResizableProps> = ({ axis, children }) => {
   return <ResizableBox {...resizableProps}>{children}</ResizableBox>;
 };
 
-export default Resizable;
+export default ResizableWrapper;

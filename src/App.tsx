@@ -1,5 +1,5 @@
-import CodeCell from './components/code-cell';
-import TextEditor from './components/text-editor';
+import CodeCell from './features/CodeCell';
+import TextEditor from './features/TextEditor';
 
 const App = () => {
   return (

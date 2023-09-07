@@ -4,7 +4,7 @@ import {
   startEsbuildService,
 } from './plugins';
 
-const bundler = async (rawCode: string) => {
+export const bundler = async (rawCode: string) => {
   const bundleService = await startEsbuildService();
 
   try {
@@ -32,5 +32,3 @@ const bundler = async (rawCode: string) => {
     };
   }
 };
-
-export default bundler;

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import bundler from '../bundler';
-import CodeEditor from '../components/code-editor';
-import Preview from '../components/preview';
-import Resizable from './resizable';
-import './styles/code-cell.css';
+import CodeEditor from './CodeEditor';
+import CodePreview from './CodePreview';
+import ResizableWrapper from './ResizableWrapper';
+import bundler from './services';
+import './style.css';
 
-const CodeCell = () => {
+export const CodeCell = () => {
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
@@ -22,23 +22,21 @@ const CodeCell = () => {
   }, [input]);
 
   return (
-    <Resizable axis='y'>
+    <ResizableWrapper axis='y'>
       <div className='resizable-editor'>
-        <Resizable axis='x'>
+        <ResizableWrapper axis='x'>
           <CodeEditor
             initialValue='const hey = "hello";'
             onChange={(value) => {
               if (value) setInput(value);
             }}
           />
-        </Resizable>
-        <Preview
+        </ResizableWrapper>
+        <CodePreview
           code={code}
           error={error}
         />
       </div>
-    </Resizable>
+    </ResizableWrapper>
   );
 };
-
-export default CodeCell;
