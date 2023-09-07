@@ -2,19 +2,19 @@ import { CellTypes } from '.';
 
 export type direction = 'up' | 'down';
 
-export interface MoveCellPayload {
+export interface IMoveCellPayload {
   id: string;
   direction: direction;
 }
 
-export type DeleteCellPayload = string;
+export type IDeleteCellPayload = string;
 
-export interface InsertCellBeforePayload {
+export interface IInsertCellBeforePayload {
   id: string | null;
   type: CellTypes;
 }
 
-export interface UpdateCellPayload {
+export interface IUpdateCellPayload {
   id: string;
   content: string;
 }

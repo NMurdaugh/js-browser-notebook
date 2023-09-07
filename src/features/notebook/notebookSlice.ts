@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   Cell,
-  DeleteCellPayload,
-  InsertCellBeforePayload,
-  MoveCellPayload,
-  UpdateCellPayload,
+  IDeleteCellPayload,
+  IInsertCellBeforePayload,
+  IMoveCellPayload,
+  IUpdateCellPayload,
 } from './types';
 
 interface NotebookState {
@@ -27,7 +27,7 @@ export const notebookSlice = createSlice({
   name: 'notebook',
   initialState,
   reducers: {
-    moveCell: (state, action: PayloadAction<MoveCellPayload>) => {
+    moveCell: (state, action: PayloadAction<IMoveCellPayload>) => {
       const { direction } = action.payload;
 
       const startingIndex = state.order.findIndex(
@@ -45,14 +45,14 @@ export const notebookSlice = createSlice({
       state.order[targetIndex] = action.payload.id;
     },
 
-    deleteCell: (state, action: PayloadAction<DeleteCellPayload>) => {
+    deleteCell: (state, action: PayloadAction<IDeleteCellPayload>) => {
       delete state.data.id;
       state.order = state.order.filter((cellId) => cellId !== action.payload);
     },
 
     insertCellBefore: (
       state,
-      action: PayloadAction<InsertCellBeforePayload>
+      action: PayloadAction<IInsertCellBeforePayload>
     ) => {
       const { id, type } = action.payload;
 
@@ -73,7 +73,7 @@ export const notebookSlice = createSlice({
       }
     },
 
-    updateCell: (state, action: PayloadAction<UpdateCellPayload>) => {
+    updateCell: (state, action: PayloadAction<IUpdateCellPayload>) => {
       const { id, content } = action.payload;
       state.data[id] = {
         ...state.data[id],
