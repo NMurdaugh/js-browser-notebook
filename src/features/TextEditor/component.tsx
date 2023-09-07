@@ -1,8 +1,8 @@
 import MDEditor from '@uiw/react-md-editor';
 import React, { useEffect, useRef, useState } from 'react';
-import './styles/text-editor.css';
+import './style.css';
 
-const TextEditor: React.FC = () => {
+export const TextEditor: React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState('# Start writing');
@@ -47,5 +47,3 @@ const TextEditor: React.FC = () => {
     </div>
   );
 };
-
-export default TextEditor;
