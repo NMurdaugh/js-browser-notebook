@@ -7,7 +7,7 @@ interface ITextEditorProps {
   cell: Cell;
 }
 
-export const TextEditor: React.FC<ITextEditorProps> = (cell) => {
+export const TextEditor: React.FC<ITextEditorProps> = ({ cell }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState('# Start writing');

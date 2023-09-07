@@ -10,7 +10,7 @@ interface ICodeCellProps {
   cell: Cell;
 }
 
-export const CodeCell: React.FC<ICodeCellProps> = (cell) => {
+export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
