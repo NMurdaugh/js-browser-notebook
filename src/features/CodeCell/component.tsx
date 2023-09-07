@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Cell } from '../Notebook';
+import { useAppDispatch } from '../../app/hooks';
+import { Cell, updateCell } from '../Notebook';
 import CodeEditor from './CodeEditor';
 import CodePreview from './CodePreview';
 import ResizableWrapper from './ResizableWrapper';
@@ -11,6 +12,7 @@ interface ICodeCellProps {
 }
 
 export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
+  const dispatch = useAppDispatch();
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
@@ -33,7 +35,9 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
           <CodeEditor
             initialValue='const hey = "hello";'
             onChange={(value) => {
-              if (value) setInput(value);
+              if (value) {
+                dispatch(updateCell({ id: cell.id, content: value }));
+              }
             }}
           />
         </ResizableWrapper>
