@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import {
   Cell,
   IDeleteCellPayload,
@@ -57,7 +57,7 @@ export const notebookSlice = createSlice({
       const { id, type } = action.payload;
 
       const newCell: Cell = {
-        id: randomId(),
+        id: nanoid(),
         type: type,
         content: '',
       };
@@ -82,10 +82,6 @@ export const notebookSlice = createSlice({
     },
   },
 });
-
-const randomId = () => {
-  return Math.random().toString(36).substring(2, 5);
-};
 
 export const { moveCell, deleteCell, insertCellBefore, updateCell } =
   notebookSlice.actions;
