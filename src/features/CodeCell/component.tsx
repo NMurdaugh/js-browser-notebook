@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Cell } from '../Notebook';
 import CodeEditor from './CodeEditor';
 import CodePreview from './CodePreview';
 import ResizableWrapper from './ResizableWrapper';
 import bundler from './services';
 import './style.css';
 
-export const CodeCell = () => {
+interface ICodeCellProps {
+  cell: Cell;
+}
+
+export const CodeCell: React.FC<ICodeCellProps> = (cell) => {
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
