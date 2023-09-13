@@ -1,6 +1,7 @@
 import MDEditor from '@uiw/react-md-editor';
 import React, { useEffect, useRef, useState } from 'react';
-import { Cell } from '../Notebook';
+import { useAppDispatch } from '../../app/hooks';
+import { Cell, updateCell } from '../Notebook';
 import './style.css';
 
 interface ITextEditorProps {
@@ -8,9 +9,9 @@ interface ITextEditorProps {
 }
 
 export const TextEditor: React.FC<ITextEditorProps> = ({ cell }) => {
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement | null>(null);
   const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState('# Start writing');
 
   useEffect(() => {
     const listener = (event: MouseEvent) => {
@@ -34,8 +35,10 @@ export const TextEditor: React.FC<ITextEditorProps> = ({ cell }) => {
         className='text-editor'
       >
         <MDEditor
-          value={value}
-          onChange={(input) => setValue(input || '')}
+          value={cell.content}
+          onChange={(input) => {
+            dispatch(updateCell({ id: cell.id, content: input || '' }));
+          }}
         />
       </div>
     );
@@ -47,7 +50,7 @@ export const TextEditor: React.FC<ITextEditorProps> = ({ cell }) => {
       className='text-editor card'
     >
       <div className='card-content'>
-        <MDEditor.Markdown source={value} />
+        <MDEditor.Markdown source={cell.content || 'Click to edit'} />
       </div>
     </div>
   );
