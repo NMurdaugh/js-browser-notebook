@@ -12,17 +12,24 @@ interface INoteBlockProps {
 const NoteBlock: React.FC<INoteBlockProps> = ({ cell }) => {
   let child: JSX.Element;
   if (cell.type === 'code') {
-    child = <CodeCell cell={cell} />;
+    child = (
+      <>
+        <div className='action-bar-wrapper'>
+          <ActionBar id={cell.id} />
+        </div>
+        <CodeCell cell={cell} />
+      </>
+    );
   } else {
-    child = <TextEditor cell={cell} />;
+    child = (
+      <>
+        <TextEditor cell={cell} />
+        <ActionBar id={cell.id} />
+      </>
+    );
   }
 
-  return (
-    <div className='note-block'>
-      {child}
-      <ActionBar id={cell.id} />
-    </div>
-  );
+  return <div className='note-block'>{child}</div>;
 };
 
 export default NoteBlock;
