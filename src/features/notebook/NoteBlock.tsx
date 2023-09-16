@@ -2,6 +2,7 @@ import React from 'react';
 import CodeCell from '../CodeCell';
 import TextEditor from '../TextEditor';
 import ActionBar from './ActionBar';
+import './NoteBlock.css';
 import { Cell } from './types';
 
 interface INoteBlockProps {
@@ -17,9 +18,9 @@ const NoteBlock: React.FC<INoteBlockProps> = ({ cell }) => {
   }
 
   return (
-    <div>
-      <ActionBar id={cell.id} />
+    <div className='note-block'>
       {child}
+      <ActionBar id={cell.id} />
     </div>
   );
 };
