@@ -1,3 +1,5 @@
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import './AddCell.css';
@@ -5,27 +7,38 @@ import { insertCellBefore } from './notebookSlice';
 
 interface IAddCellProps {
   nextCellId: string | null;
+  forceVisible?: boolean;
 }
 
-const AddCell: React.FC<IAddCellProps> = ({ nextCellId }) => {
+const AddCell: React.FC<IAddCellProps> = ({ nextCellId, forceVisible }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className='add-cell'>
-      <button
-        onClick={() =>
-          dispatch(insertCellBefore({ id: nextCellId, type: 'code' }))
-        }
-      >
-        + Code
-      </button>
-      <button
-        onClick={() =>
-          dispatch(insertCellBefore({ id: nextCellId, type: 'text' }))
-        }
-      >
-        + Text
-      </button>
+    <div className={`add-cell ${forceVisible && 'force-visible'}`}>
+      <div className='add-buttons'>
+        <button
+          className='button is-rounded is-primary is-small'
+          onClick={() =>
+            dispatch(insertCellBefore({ id: nextCellId, type: 'code' }))
+          }
+        >
+          <span className='icon is-small'>
+            <FontAwesomeIcon icon={faPlusSquare} />
+          </span>
+          <span>Code</span>
+        </button>
+        <button
+          className='button is-rounded is-primary is-small'
+          onClick={() =>
+            dispatch(insertCellBefore({ id: nextCellId, type: 'text' }))
+          }
+        >
+          <span className='icon is-small'>
+            <FontAwesomeIcon icon={faPlusSquare} />
+          </span>
+          <span>Text</span>
+        </button>
+      </div>
       <div className='divider'></div>
     </div>
   );

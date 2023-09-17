@@ -18,7 +18,10 @@ export const Notebook: React.FC = () => {
   return (
     <div>
       {renderedCells}
-      <AddCell nextCellId={null} />
+      <AddCell
+        forceVisible={cellList.length === 0}
+        nextCellId={null}
+      />
     </div>
   );
 };
