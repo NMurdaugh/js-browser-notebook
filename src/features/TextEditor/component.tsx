@@ -32,7 +32,7 @@ export const TextEditor: React.FC<ITextEditorProps> = ({ cell }) => {
     return (
       <div
         ref={ref}
-        className='text-editor'
+        className='text-editor send-to-top'
       >
         <MDEditor
           value={cell.content}

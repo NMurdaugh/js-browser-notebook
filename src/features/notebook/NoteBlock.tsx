@@ -23,8 +23,10 @@ const NoteBlock: React.FC<INoteBlockProps> = ({ cell }) => {
   } else {
     child = (
       <>
+        <div className='action-bar-wrapper'>
+          <ActionBar id={cell.id} />
+        </div>
         <TextEditor cell={cell} />
-        <ActionBar id={cell.id} />
       </>
     );
   }

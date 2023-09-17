@@ -19,25 +19,34 @@ const ActionBar: React.FC<IActionBarProps> = ({ id }) => {
   return (
     <div className='action-bar'>
       <button
+        className='button is-primary is-small'
         onClick={() => {
           dispatch(moveCell({ id: id, direction: 'up' }));
         }}
       >
-        <FontAwesomeIcon icon={faArrowAltCircleUp} />
+        <span className='icon'>
+          <FontAwesomeIcon icon={faArrowAltCircleUp} />
+        </span>
       </button>
       <button
+        className='button is-primary is-small'
         onClick={() => {
           dispatch(moveCell({ id: id, direction: 'down' }));
         }}
       >
-        <FontAwesomeIcon icon={faArrowAltCircleDown} />
+        <span className='icon'>
+          <FontAwesomeIcon icon={faArrowAltCircleDown} />
+        </span>
       </button>
       <button
+        className='button is-primary is-small'
         onClick={() => {
           dispatch(deleteCell(id));
         }}
       >
-        <FontAwesomeIcon icon={faXmarkCircle} />
+        <span className='icon'>
+          <FontAwesomeIcon icon={faXmarkCircle} />
+        </span>
       </button>
     </div>
   );
