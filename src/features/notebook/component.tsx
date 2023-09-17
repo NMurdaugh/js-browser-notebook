@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useAppSelector } from '../../app/hooks';
+import AddCell from './AddCell';
 import NoteBlock from './NoteBlock';
 
 export const Notebook: React.FC = () => {
@@ -8,11 +9,16 @@ export const Notebook: React.FC = () => {
   );
 
   const renderedCells = cellList.map((cell) => (
-    <NoteBlock
-      key={cell.id}
-      cell={cell}
-    />
+    <Fragment key={cell.id}>
+      <AddCell nextCellId={cell.id} />
+      <NoteBlock cell={cell} />
+    </Fragment>
   ));
 
-  return <div>{renderedCells}</div>;
+  return (
+    <div>
+      {renderedCells}
+      <AddCell nextCellId={null} />
+    </div>
+  );
 };
