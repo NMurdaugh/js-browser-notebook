@@ -2,7 +2,7 @@ import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import {
   Cell,
   IDeleteCellPayload,
-  IInsertCellBeforePayload,
+  IInsertCellAfterPayload,
   IMoveCellPayload,
   IUpdateCellPayload,
 } from './types';
@@ -50,9 +50,9 @@ export const notebookSlice = createSlice({
       state.order = state.order.filter((cellId) => cellId !== action.payload);
     },
 
-    insertCellBefore: (
+    insertCellAfter: (
       state,
-      action: PayloadAction<IInsertCellBeforePayload>
+      action: PayloadAction<IInsertCellAfterPayload>
     ) => {
       const { id, type } = action.payload;
 
@@ -67,9 +67,9 @@ export const notebookSlice = createSlice({
       const index = state.order.findIndex((cellId) => cellId === id);
 
       if (index < 0) {
-        state.order.push(newCell.id);
+        state.order.unshift(newCell.id);
       } else {
-        state.order.splice(index, 0, newCell.id);
+        state.order.splice(index + 1, 0, newCell.id);
       }
     },
 
@@ -83,7 +83,7 @@ export const notebookSlice = createSlice({
   },
 });
 
-export const { moveCell, deleteCell, insertCellBefore, updateCell } =
+export const { moveCell, deleteCell, insertCellAfter, updateCell } =
   notebookSlice.actions;
 
 export default notebookSlice.reducer;

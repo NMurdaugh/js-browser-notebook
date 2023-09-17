@@ -9,7 +9,7 @@ export interface IMoveCellPayload {
 
 export type IDeleteCellPayload = string;
 
-export interface IInsertCellBeforePayload {
+export interface IInsertCellAfterPayload {
   id: string | null;
   type: CellTypes;
 }

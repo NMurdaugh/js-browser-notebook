@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import './AddCell.css';
-import { insertCellBefore } from './notebookSlice';
+import { insertCellAfter } from './notebookSlice';
 
 interface IAddCellProps {
   nextCellId: string | null;
@@ -19,7 +19,7 @@ const AddCell: React.FC<IAddCellProps> = ({ nextCellId, forceVisible }) => {
         <button
           className='button is-rounded is-primary is-small'
           onClick={() =>
-            dispatch(insertCellBefore({ id: nextCellId, type: 'code' }))
+            dispatch(insertCellAfter({ id: nextCellId, type: 'code' }))
           }
         >
           <span className='icon is-small'>
@@ -30,7 +30,7 @@ const AddCell: React.FC<IAddCellProps> = ({ nextCellId, forceVisible }) => {
         <button
           className='button is-rounded is-primary is-small'
           onClick={() =>
-            dispatch(insertCellBefore({ id: nextCellId, type: 'text' }))
+            dispatch(insertCellAfter({ id: nextCellId, type: 'text' }))
           }
         >
           <span className='icon is-small'>

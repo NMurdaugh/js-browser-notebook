@@ -10,18 +10,18 @@ export const Notebook: React.FC = () => {
 
   const renderedCells = cellList.map((cell) => (
     <Fragment key={cell.id}>
-      <AddCell nextCellId={cell.id} />
       <NoteBlock cell={cell} />
+      <AddCell nextCellId={cell.id} />
     </Fragment>
   ));
 
   return (
     <div>
-      {renderedCells}
       <AddCell
         forceVisible={cellList.length === 0}
         nextCellId={null}
       />
+      {renderedCells}
     </div>
   );
 };
