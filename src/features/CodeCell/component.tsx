@@ -13,12 +13,13 @@ interface ICodeCellProps {
 
 export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
   const dispatch = useAppDispatch();
-  const codeBundle = useAppSelector((state) => state.bundler[cell.id]);
+  const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      createBundle(cell.id, cell.content);
+      createBundle({ cellId: cell.id, inputCode: cell.content });
     }, 1000);
+
     return () => {
       clearTimeout(timer);
     };
@@ -37,12 +38,11 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
             }}
           />
         </ResizableWrapper>
-        {codeBundle && (
-          <CodePreview
-            code={codeBundle?.code}
-            error={codeBundle?.error}
-          />
-        )}
+
+        <CodePreview
+          code={codeBundle?.code}
+          error={codeBundle?.error}
+        />
       </div>
     </ResizableWrapper>
   );

@@ -5,7 +5,7 @@ import notebookReducer from '../features/Notebook/notebookSlice';
 const store = configureStore({
   reducer: {
     notebook: notebookReducer,
-    bundler: codeBundlesReducer,
+    cellBundles: codeBundlesReducer,
   },
 });
 
