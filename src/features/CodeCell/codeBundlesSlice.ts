@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { useAppDispatch } from '../../app/hooks';
+import { bundler } from './services/bundler';
 import { IBundleCompletePayload, IBundleStartPayload } from './types';
 
 interface IBundlesState {
@@ -10,6 +12,17 @@ interface IBundlesState {
 }
 
 const initialState: IBundlesState = {};
+
+export const createBundle = (id: string, inputCode: string) => {
+  const dispatch = useAppDispatch();
+  return async () => {
+    dispatch(bundleStart({ id }));
+
+    const bundlerResult = await bundler(inputCode);
+
+    dispatch(bundleComplete({ id, bundle: bundlerResult }));
+  };
+};
 
 export const codeBundlesSlice = createSlice({
   name: 'codeBundles',
