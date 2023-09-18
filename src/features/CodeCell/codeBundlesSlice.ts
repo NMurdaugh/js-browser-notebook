@@ -11,8 +11,8 @@ interface IBundlesState {
 
 const initialState: IBundlesState = {};
 
-export const bundlerSlice = createSlice({
-  name: 'bundler',
+export const codeBundlesSlice = createSlice({
+  name: 'codeBundles',
   initialState,
   reducers: {
     bundleStart: (state, action: PayloadAction<IBundleStartPayload>) => {
@@ -33,6 +33,6 @@ export const bundlerSlice = createSlice({
   },
 });
 
-export const { bundleStart, bundleComplete } = bundlerSlice.actions;
+export const { bundleStart, bundleComplete } = codeBundlesSlice.actions;
 
-export default bundlerSlice.reducer;
+export default codeBundlesSlice.reducer;
