@@ -1,51 +1,59 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { useAppDispatch } from '../../app/hooks';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { bundler } from './services/bundler';
-import { IBundleCompletePayload, IBundleStartPayload } from './types';
 
 interface IBundlesState {
-  [key: string]: {
-    processing: boolean;
-    code: string;
-    error: string;
-  };
+  [key: string]:
+    | {
+        processing: boolean;
+        code: string;
+        error: string;
+      }
+    | undefined;
 }
 
 const initialState: IBundlesState = {};
 
-export const createBundle = (id: string, inputCode: string) => {
-  const dispatch = useAppDispatch();
-  return async () => {
-    dispatch(bundleStart({ id }));
+interface ICellData {
+  cellId: string;
+  inputCode: string;
+}
 
-    const bundlerResult = await bundler(inputCode);
+export const createBundle = createAsyncThunk(
+  'codeBundles/createBundle',
+  async (cellData: ICellData) => {
+    const bundlerResult = await bundler(cellData.inputCode);
 
-    dispatch(bundleComplete({ id, bundle: bundlerResult }));
-  };
-};
+    const payloadData = {
+      cellId: cellData.cellId,
+      bundlerResult,
+    };
+
+    return payloadData;
+  }
+);
 
 export const codeBundlesSlice = createSlice({
   name: 'codeBundles',
   initialState,
-  reducers: {
-    bundleStart: (state, action: PayloadAction<IBundleStartPayload>) => {
-      state[action.payload.id] = {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(createBundle.pending, (state, action) => {
+      state[action.meta.arg.cellId] = {
         processing: true,
         code: '',
         error: '',
       };
-    },
+    });
+    builder.addCase(createBundle.fulfilled, (state, action) => {
+      const { code, error } = action.payload.bundlerResult;
 
-    bundleComplete: (state, action: PayloadAction<IBundleCompletePayload>) => {
-      state[action.payload.id] = {
+      state[action.payload.cellId] = {
         processing: false,
-        code: action.payload.bundle.code,
-        error: action.payload.bundle.error,
+        code,
+        error,
       };
-    },
+    });
   },
 });
-
-export const { bundleStart, bundleComplete } = codeBundlesSlice.actions;
 
 export default codeBundlesSlice.reducer;

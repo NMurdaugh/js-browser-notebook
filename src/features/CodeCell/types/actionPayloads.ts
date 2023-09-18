@@ -9,3 +9,8 @@ export interface IBundleCompletePayload {
     error: string;
   };
 }
+
+export interface ICreateBundlePayload {
+  id: string;
+  inputCode: string;
+}
