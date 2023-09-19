@@ -23,12 +23,10 @@ export const createBundle = createAsyncThunk(
   async (cellData: ICellData) => {
     const bundlerResult = await bundler(cellData.inputCode);
 
-    const payloadData = {
+    return {
       cellId: cellData.cellId,
       bundlerResult,
     };
-
-    return payloadData;
   }
 );
 
