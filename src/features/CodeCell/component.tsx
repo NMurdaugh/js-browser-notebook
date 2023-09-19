@@ -39,10 +39,12 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
           />
         </ResizableWrapper>
 
-        <CodePreview
-          code={codeBundle?.code}
-          error={codeBundle?.error}
-        />
+        {codeBundle && (
+          <CodePreview
+            code={codeBundle.code}
+            error={codeBundle.error}
+          />
+        )}
       </div>
     </ResizableWrapper>
   );

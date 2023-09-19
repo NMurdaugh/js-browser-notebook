@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import './CodePreview.css';
 
 interface IPreviewProps {
-  code: string | undefined;
-  error: string | undefined;
+  code: string;
+  error: string;
 }
 
 const html = `
