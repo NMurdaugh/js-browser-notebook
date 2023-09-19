@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import React, { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../app/hooks';
 import { Cell, updateCell } from '../Notebook';
 import CodeEditor from './CodeEditor';
 import CodePreview from './CodePreview';
 import ResizableWrapper from './ResizableWrapper';
-import { createBundle } from './codeBundlesSlice';
+// import { createBundle } from './codeBundlesSlice';
+import { bundler } from './services/bundler';
 import './style.css';
 
 interface ICodeCellProps {
@@ -12,12 +13,18 @@ interface ICodeCellProps {
 }
 
 export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useAppDispatch();
-  const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
+  // const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      createBundle({ cellId: cell.id, inputCode: cell.content });
+      // createBundle({ cellId: cell.id, inputCode: cell.content });
+
+      const output = await bundler(cell.content);
+      setCode(output.code);
+      setError(output.error);
     }, 1000);
 
     return () => {
@@ -40,8 +47,8 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
         </ResizableWrapper>
 
         <CodePreview
-          code={codeBundle?.code}
-          error={codeBundle?.error}
+          code={code}
+          error={error}
         />
       </div>
     </ResizableWrapper>
