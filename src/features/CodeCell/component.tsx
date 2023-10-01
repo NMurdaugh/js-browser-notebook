@@ -18,7 +18,13 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
     const { data, order } = state.notebook;
     const orderedCells = order.map((id) => data[id]);
 
-    const cumulativeCode = [];
+    const cumulativeCode = [
+      `
+        const show = (value) => {
+          document.querySelector('#root').innerHTML = value
+        }
+      `,
+    ];
     for (let currentCell of orderedCells) {
       if (currentCell.type === 'code') {
         cumulativeCode.push(currentCell.content);
