@@ -45,7 +45,14 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
         </ResizableWrapper>
 
         {!codeBundle || codeBundle.processing ? (
-          <div>Loading...</div>
+          <div className='progress-cover'>
+            <progress
+              className='progress is-small is-primary'
+              max='100'
+            >
+              Loading
+            </progress>
+          </div>
         ) : (
           <CodePreview
             code={codeBundle.code}
