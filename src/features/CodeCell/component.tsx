@@ -16,6 +16,11 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
   const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
 
   useEffect(() => {
+    if (!codeBundle) {
+      dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
+      return;
+    }
+
     const timer = setTimeout(async () => {
       dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
     }, 1000);
@@ -39,12 +44,23 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
           />
         </ResizableWrapper>
 
-        {codeBundle && (
-          <CodePreview
-            code={codeBundle.code}
-            error={codeBundle.error}
-          />
-        )}
+        <div className='preview-wrapper'>
+          {!codeBundle || codeBundle.processing ? (
+            <div className='progress-cover'>
+              <progress
+                className='progress is-small is-primary'
+                max='100'
+              >
+                Loading
+              </progress>
+            </div>
+          ) : (
+            <CodePreview
+              code={codeBundle.code}
+              error={codeBundle.error}
+            />
+          )}
+        </div>
       </div>
     </ResizableWrapper>
   );
