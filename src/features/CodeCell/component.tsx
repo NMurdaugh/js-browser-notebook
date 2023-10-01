@@ -27,23 +27,23 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
         break;
       }
     }
-    return cumulativeCode;
+    return cumulativeCode.join('\n');
   });
 
   useEffect(() => {
     if (!codeBundle) {
-      dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
+      dispatch(createBundle({ cellId: cell.id, inputCode: cumulativeCode }));
       return;
     }
 
     const timer = setTimeout(async () => {
-      dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
+      dispatch(createBundle({ cellId: cell.id, inputCode: cumulativeCode }));
     }, 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [cell.content, cell.id]);
+  }, [cumulativeCode, cell.id]);
 
   return (
     <ResizableWrapper axis='y'>
