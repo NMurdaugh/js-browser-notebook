@@ -14,6 +14,21 @@ interface ICodeCellProps {
 export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
   const dispatch = useAppDispatch();
   const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
+  const cumulativeCode = useAppSelector((state) => {
+    const { data, order } = state.notebook;
+    const orderedCells = order.map((id) => data[id]);
+
+    const cumulativeCode = [];
+    for (let currentCell of orderedCells) {
+      if (currentCell.type === 'code') {
+        cumulativeCode.push(currentCell.content);
+      }
+      if (currentCell.id === cell.id) {
+        break;
+      }
+    }
+    return cumulativeCode;
+  });
 
   useEffect(() => {
     if (!codeBundle) {
