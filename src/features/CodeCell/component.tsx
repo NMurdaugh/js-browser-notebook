@@ -1,41 +1,50 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Cell, updateCell } from '../Notebook';
 import CodeEditor from './CodeEditor';
 import CodePreview from './CodePreview';
 import ResizableWrapper from './ResizableWrapper';
-import bundler from './services';
+import { createBundle } from './codeBundlesSlice';
 import './style.css';
 
-export const CodeCell = () => {
-  const [input, setInput] = useState('');
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
+interface ICodeCellProps {
+  cell: Cell;
+}
+
+export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
+  const dispatch = useAppDispatch();
+  const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-      const bundlingResult = await bundler(input);
-      setCode(bundlingResult.code);
-      setError(bundlingResult.error);
+      dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
     }, 1000);
+
     return () => {
       clearTimeout(timer);
     };
-  }, [input]);
+  }, [cell.content, cell.id]);
 
   return (
     <ResizableWrapper axis='y'>
       <div className='resizable-editor'>
         <ResizableWrapper axis='x'>
           <CodeEditor
-            initialValue='const hey = "hello";'
+            initialValue={cell.content}
             onChange={(value) => {
-              if (value) setInput(value);
+              if (value) {
+                dispatch(updateCell({ id: cell.id, content: value }));
+              }
             }}
           />
         </ResizableWrapper>
-        <CodePreview
-          code={code}
-          error={error}
-        />
+
+        {codeBundle && (
+          <CodePreview
+            code={codeBundle.code}
+            error={codeBundle.error}
+          />
+        )}
       </div>
     </ResizableWrapper>
   );

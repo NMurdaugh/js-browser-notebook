@@ -1,11 +1,9 @@
-import CodeCell from './features/CodeCell';
-import TextEditor from './features/TextEditor';
+import Notebook from './features/Notebook';
 
 const App = () => {
   return (
     <>
-      <TextEditor />
-      <CodeCell />
+      <Notebook />
     </>
   );
 };

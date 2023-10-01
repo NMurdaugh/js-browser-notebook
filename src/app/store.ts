@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import codeBundlesReducer from '../features/CodeCell/codeBundlesSlice';
 import notebookReducer from '../features/Notebook/notebookSlice';
 
 const store = configureStore({
   reducer: {
     notebook: notebookReducer,
+    cellBundles: codeBundlesReducer,
   },
 });
 

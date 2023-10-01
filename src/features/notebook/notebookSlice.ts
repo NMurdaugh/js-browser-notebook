@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import {
   Cell,
-  DeleteCellPayload,
-  InsertCellBeforePayload,
-  MoveCellPayload,
-  UpdateCellPayload,
+  IDeleteCellPayload,
+  IInsertCellAfterPayload,
+  IMoveCellPayload,
+  IUpdateCellPayload,
 } from './types';
 
 interface NotebookState {
@@ -27,7 +27,7 @@ export const notebookSlice = createSlice({
   name: 'notebook',
   initialState,
   reducers: {
-    moveCell: (state, action: PayloadAction<MoveCellPayload>) => {
+    moveCell: (state, action: PayloadAction<IMoveCellPayload>) => {
       const { direction } = action.payload;
 
       const startingIndex = state.order.findIndex(
@@ -45,19 +45,19 @@ export const notebookSlice = createSlice({
       state.order[targetIndex] = action.payload.id;
     },
 
-    deleteCell: (state, action: PayloadAction<DeleteCellPayload>) => {
+    deleteCell: (state, action: PayloadAction<IDeleteCellPayload>) => {
       delete state.data.id;
       state.order = state.order.filter((cellId) => cellId !== action.payload);
     },
 
-    insertCellBefore: (
+    insertCellAfter: (
       state,
-      action: PayloadAction<InsertCellBeforePayload>
+      action: PayloadAction<IInsertCellAfterPayload>
     ) => {
       const { id, type } = action.payload;
 
       const newCell: Cell = {
-        id: randomId(),
+        id: nanoid(),
         type: type,
         content: '',
       };
@@ -67,13 +67,13 @@ export const notebookSlice = createSlice({
       const index = state.order.findIndex((cellId) => cellId === id);
 
       if (index < 0) {
-        state.order.push(newCell.id);
+        state.order.unshift(newCell.id);
       } else {
-        state.order.splice(index, 0, newCell.id);
+        state.order.splice(index + 1, 0, newCell.id);
       }
     },
 
-    updateCell: (state, action: PayloadAction<UpdateCellPayload>) => {
+    updateCell: (state, action: PayloadAction<IUpdateCellPayload>) => {
       const { id, content } = action.payload;
       state.data[id] = {
         ...state.data[id],
@@ -83,11 +83,7 @@ export const notebookSlice = createSlice({
   },
 });
 
-const randomId = () => {
-  return Math.random().toString(36).substring(2, 5);
-};
-
-export const { moveCell, deleteCell, insertCellBefore, updateCell } =
+export const { moveCell, deleteCell, insertCellAfter, updateCell } =
   notebookSlice.actions;
 
 export default notebookSlice.reducer;
