@@ -16,6 +16,11 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
   const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
 
   useEffect(() => {
+    if (!codeBundle) {
+      dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
+      return;
+    }
+
     const timer = setTimeout(async () => {
       dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
     }, 1000);
