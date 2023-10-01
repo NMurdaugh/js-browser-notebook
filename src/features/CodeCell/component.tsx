@@ -44,7 +44,9 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
           />
         </ResizableWrapper>
 
-        {codeBundle && (
+        {!codeBundle || codeBundle.processing ? (
+          <div>Loading...</div>
+        ) : (
           <CodePreview
             code={codeBundle.code}
             error={codeBundle.error}
