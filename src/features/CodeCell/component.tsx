@@ -18,28 +18,34 @@ export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
     const { data, order } = state.notebook;
     const orderedCells = order.map((id) => data[id]);
 
-    const cumulativeCode = [
-      `
-        import _React from 'react';
-        import _ReactDOM from 'react-dom';
+    const showFunction = `
+    import _React from 'react';
+    import _ReactDOM from 'react-dom';
 
-        const show = (value) => {
-          const root = document.querySelector('#root')
+    var show = (value) => {
+      const root = document.querySelector('#root')
 
-          if (typeof value === 'object') {
-            if (value.$$typeof && value.props) {
-              _ReactDOM.render(value, root);
-            } else {
-              root.innerHTML = JSON.stringify(value)
-            }
-          } else {
-            root.innerHTML = value
-          }
+      if (typeof value === 'object') {
+        if (value.$$typeof && value.props) {
+          _ReactDOM.render(value, root);
+        } else {
+          root.innerHTML = JSON.stringify(value)
         }
-      `,
-    ];
+      } else {
+        root.innerHTML = value
+      }
+    }
+  `;
+
+    const showFunctionNoOp = 'var show = () => {}';
+    const cumulativeCode = [];
     for (let currentCell of orderedCells) {
       if (currentCell.type === 'code') {
+        if (currentCell.id === cell.id) {
+          cumulativeCode.push(showFunction);
+        } else {
+          cumulativeCode.push(showFunctionNoOp);
+        }
         cumulativeCode.push(currentCell.content);
       }
       if (currentCell.id === cell.id) {
