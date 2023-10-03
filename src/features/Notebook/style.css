@@ -1,0 +1,7 @@
+.notebook {
+  margin: 0 25px 25vh;
+}
+
+.react-draggable-transparent-selection .notebook {
+  margin-bottom: 100vh;
+}

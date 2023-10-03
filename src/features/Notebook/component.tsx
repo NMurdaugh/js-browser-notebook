@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import AddCell from './AddCell';
 import NoteBlock from './NoteBlock';
+import './style.css';
 
 export const Notebook: React.FC = () => {
   const cellList = useAppSelector(({ notebook: { order, data } }) =>
@@ -16,7 +17,7 @@ export const Notebook: React.FC = () => {
   ));
 
   return (
-    <div>
+    <div className='notebook'>
       <AddCell
         forceVisible={cellList.length === 0}
         nextCellId={null}

@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useCumulativeCode,
+} from '../../app/hooks';
 import { Cell, updateCell } from '../Notebook';
 import CodeEditor from './CodeEditor';
 import CodePreview from './CodePreview';
@@ -14,21 +18,22 @@ interface ICodeCellProps {
 export const CodeCell: React.FC<ICodeCellProps> = ({ cell }) => {
   const dispatch = useAppDispatch();
   const codeBundle = useAppSelector((state) => state.cellBundles[cell.id]);
+  const cumulativeCode = useCumulativeCode(cell.id);
 
   useEffect(() => {
     if (!codeBundle) {
-      dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
+      dispatch(createBundle({ cellId: cell.id, inputCode: cumulativeCode }));
       return;
     }
 
     const timer = setTimeout(async () => {
-      dispatch(createBundle({ cellId: cell.id, inputCode: cell.content }));
+      dispatch(createBundle({ cellId: cell.id, inputCode: cumulativeCode }));
     }, 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [cell.content, cell.id]);
+  }, [cumulativeCode, cell.id]);
 
   return (
     <ResizableWrapper axis='y'>
